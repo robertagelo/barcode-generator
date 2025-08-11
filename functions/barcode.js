@@ -1,15 +1,15 @@
 const bwipjs = require("bwip-js");
 
 exports.handler = async (event) => {
-  const data = event.queryStringParameters.data || "12345678";
+  const data = event.queryStringParameters.data || "123456789";
 
   try {
     const png = await bwipjs.toBuffer({
-      bcid: "code128", // Cambia se vuoi QR, EAN, ecc.
+      bcid: "code128",
       text: data,
       scale: 3,
       height: 10,
-      includetext: true,
+      includetext: false,
     });
 
     return {
