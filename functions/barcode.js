@@ -12,7 +12,11 @@ app.get("/barcode", (req, res) => {
     },
     function (err, png) {
       if (err) {
-        res.status(400).send("Errore nel generare il barcode");
+        res
+          .status(400)
+          .send(
+            "Errore nella generazione del barcode. Utilizza il numero riportato sotto"
+          );
       } else {
         res.set("Content-Type", "image/png");
         res.send(png);
