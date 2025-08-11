@@ -2,7 +2,7 @@ const bwipjs = require("bwip-js");
 const { createCanvas, loadImage } = require("canvas");
 
 exports.handler = async (event) => {
-  const data = event.queryStringParameters.data || "12345678";
+  const data = event.queryStringParameters.data || "123456789";
 
   try {
     // Per generare le barre di testo
@@ -12,13 +12,13 @@ exports.handler = async (event) => {
       scale: 3,
       height: 10,
       includetext: false,
-      paddingwidth: 20,
-      paddingheight: 20,
+      paddingwidth: 5,
+      paddingheight: 5,
     });
 
     // Per il testo
     const barcodeImage = await loadImage(barcodeBuffer);
-    const marginBottom = 30;
+    const marginBottom = 10;
     const canvas = createCanvas(
       barcodeImage.width,
       barcodeImage.height + marginBottom
