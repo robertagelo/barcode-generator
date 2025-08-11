@@ -1,26 +1,29 @@
 const bwipjs = require("bwip-js");
 
-app.get("/barcode", (req, res) => {
-  const data = req.query.data || "123456789";
-  bwipjs.toBuffer(
-    {
-      bcid: "code128", // oppure 'ean13' ecc.
+exports.handler = async (event) => {
+  const data = event.queryStringParameters.data || "123456789";
+
+  try {
+    const png = await bwipjs.toBuffer({
+      bcid: "code128", // oppure 'ean13'
       text: data,
       scale: 3,
       height: 10,
       includetext: false,
-    },
-    function (err, png) {
-      if (err) {
-        res
-          .status(400)
-          .send(
-            "Errore nella generazione del barcode. Utilizza il numero riportato sotto"
-          );
-      } else {
-        res.set("Content-Type", "image/png");
-        res.send(png);
-      }
-    }
-  );
-});
+    });
+
+    return {
+      statusCode: 200,
+      headers: {
+        "Content-Type": "image/png",
+      },
+      body: png.toString("base64"),
+      isBase64Encoded: true,
+    };
+  } catch (err) {
+    return {
+      statusCode: 400,
+      body: "Errore nella generazione del barcode. Utilizza il numero riportato sotto",
+    };
+  }
+};
